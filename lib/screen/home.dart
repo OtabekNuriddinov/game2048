@@ -211,11 +211,39 @@ class _Game2048State extends State<Game2048> with SingleTickerProviderStateMixin
   void swipeDown() =>
       columns.map((e) => e.reversed.toList()).forEach(mergeTiles);
 
+
+  bool isGameOver(){
+    bool noEmptySpaces = smoothedGrid.every((tile)=>tile.val !=0);
+
+    bool canMerge = false;
+
+    for(var row in grid){
+      for(int i=0; i<grid.length-1; i++){
+        if(row[i].val==row[i+1].val){
+          canMerge = true;
+          break;
+        }
+      }
+    }
+    for(var column in columns){
+      for(int i=0; i<columns.length -1; i++){
+        if(column[i].val==column[i+1].val){
+          canMerge = true;
+          break;
+        }
+      }
+    }
+
+    if(canMerge || !noEmptySpaces){
+      return false;
+    }
+    return true;
+  }
+
   void mergeTiles(List<Tile> tiles) {
     for (int i = 0; i < tiles.length; i++) {
       Iterable<Tile> toCheck =
       tiles.skip(i).skipWhile((value) => value.val == 0);
-
       if (toCheck.isNotEmpty) {
         Tile t = toCheck.first;
         Tile? merge = toCheck.skip(1).firstWhereOrNull((t) => t.val != 0);
@@ -231,13 +259,15 @@ class _Game2048State extends State<Game2048> with SingleTickerProviderStateMixin
             merge.bounce(animationController);
             merge.changeNumber(animationController, resultValue);
             merge.val = 0;
-
             t.changeNumber(animationController, 0);
           }
           t.val = 0;
           tiles[i].val = resultValue;
         }
       }
+    }
+    if(isGameOver()){
+      print("Game Over!");
     }
   }
 }
