@@ -168,8 +168,7 @@ class _Game2048State extends State<Game2048> with SingleTickerProviderStateMixin
   void addNewTile() {
     List<Tile> empty = smoothedGrid.where((e) => e.val == 0).toList();
     empty.shuffle();
-    toAdd.add(
-      Tile(x: empty.first.x, y: empty.first.y, val: 2)
+    toAdd.add(Tile(x: empty.first.x, y: empty.first.y, val: 2)
         ..appear(animationController),
     );
   }
