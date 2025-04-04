@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:game2048/core/utils/my_dialog.dart';
 
 import '../core/models/tile.dart';
 import '../core/theme/colors.dart';
@@ -233,7 +234,6 @@ class _Game2048State extends State<Game2048> with SingleTickerProviderStateMixin
         }
       }
     }
-
     if(canMerge || !noEmptySpaces){
       return false;
     }
@@ -268,6 +268,7 @@ class _Game2048State extends State<Game2048> with SingleTickerProviderStateMixin
     }
     if(isGameOver()){
       print("Game Over!");
+      AppDialog.showMyDialog(resetGame, context);
     }
   }
 }
